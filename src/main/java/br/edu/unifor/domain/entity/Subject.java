@@ -1,11 +1,12 @@
 package br.edu.unifor.domain.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 /**
  * Entidade que representa uma Disciplina do curso.
@@ -41,7 +42,7 @@ public class Subject extends PanacheEntity {
     /**
      * Número de creditos da disciplina
      */
-    @NotBlank(message = "O número de créditos da disciplina é obrigatório")
+    @NotNull(message = "O número de créditos da disciplina é obrigatório")
     @Column(nullable = false)
     public Integer credits;
 
@@ -59,8 +60,7 @@ public class Subject extends PanacheEntity {
             String name,
             Integer workload,
             Integer credits,
-            String description
-        ) {
+            String description) {
         this.code = code;
         this.name = name;
         this.workload = workload;
