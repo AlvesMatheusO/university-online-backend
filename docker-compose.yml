@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  # ======================================================
+  # BANCO DE DADOS: POSTGRESQL 
+  # ======================================================
+    postgres:
+    image: postgres:16-alpine
+    container_name: academic-postgres
+    environment:
+      POSTGRES_DB: academic_db
+      POSTGRES_USER: academic_user
+      POSTGRES_PASSWORD: academic_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persistência de dados entre reiniciações
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - academic-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U academic_user -d academic_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ======================================================
+  # AUTENTICAÇÃO E AUTORIZAÇÃO: KEYCLOAK
+  # ======================================================
+    keycloak:
+      image: quay.io/keycloak/keycloak:24.0
+      container_name: academic-keycloak
+      environment:
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: admin
+        KC_DB: postgres
+        KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+        KC_DB_USERNAME: academic_user
+        KC_DB_PASSWORD: academic_pass
+        KC_HOSTNAME_STRICT: false
+        KC_HTTP_ENABLED: true
+      command:
+        - start-dev
+      ports:
+        - "8180:8080"
+      depends_on:
+        - postgres:
+          condition: service_healthy
+      networks:
+        - academic-network
+      healthcheck:
+        test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: 127.0.0.1\r\nConnection: close\r\n\r\n' >&3;grep 'HTTP/1.1 200 OK' <&3"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  # ======================================================
+  # INTERFACE WEB PARA POSTGRESQL: PGADMIN
+  # ======================================================
+    pgadmin:
+      image: dpage/pgadmin4:latest
+      container_name: academic-pgadmin
+      environment:
+        PGADMIN_DEFAULT_EMAIL: admin@unifor.br
+        PGADMIN_DEFAULT_PASSWORD: admin
+      ports:
+      - "5050:80"
+      depends_on:
+      - postgres
+      networks:
+      - academic-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  academic-network:
+    driver: bridge
