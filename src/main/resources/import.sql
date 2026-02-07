@@ -31,3 +31,24 @@ INSERT INTO professors (id, registration, name, email, title, department) VALUES
 (nextval('professors_seq'), '2600107', 'Ana Carvalho', 'ana.carvalho@unifor.br', 'Doutora', 'Ciência da Computação');
 (nextval('professors_seq'), '2600108', 'Agatha Ferreira', 'agatha.ferreira@unifor.br', 'Doutora', 'Ciência da Computação');
 (nextval('professors_seq'), '2600109', 'Jana Moreira', 'jana.moreira@unifor.br', 'Doutora', 'Ciência da Computação');
+
+
+-- ============================================
+-- HORÁRIOS
+-- ============================================
+
+-- Segunda-feira
+INSERT INTO schedules (id, day_of_week, start_time, end_time, period) VALUES 
+(nextval('schedules_seq'), 'MONDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'MONDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'MONDAY', '19:00:00', '21:00:00', 'NOITE'),
+
+-- Terça-feira
+(nextval('schedules_seq'), 'TUESDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'TUESDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'TUESDAY', '19:00:00', '21:00:00', 'NOITE'),
+
+-- Quarta-feira
+(nextval('schedules_seq'), 'WEDNESDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'WEDNESDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'WEDNESDAY', '19:00:00', '21:00:00', 'NOITE');
