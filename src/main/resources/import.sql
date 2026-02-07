@@ -37,18 +37,34 @@ INSERT INTO professors (id, registration, name, email, title, department) VALUES
 -- HORÁRIOS
 -- ============================================
 
--- Segunda-feira
-INSERT INTO schedules (id, day_of_week, start_time, end_time, period) VALUES 
+INSERT INTO schedules (id, dayofweek, starttime, endtime, period) VALUES 
 (nextval('schedules_seq'), 'MONDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'MONDAY', '10:00:00', '12:00:00', 'MANHA'),
 (nextval('schedules_seq'), 'MONDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'MONDAY', '16:00:00', '18:00:00', 'TARDE'),
 (nextval('schedules_seq'), 'MONDAY', '19:00:00', '21:00:00', 'NOITE'),
-
--- Terça-feira
+(nextval('schedules_seq'), 'MONDAY', '21:00:00', '23:00:00', 'NOITE'),
 (nextval('schedules_seq'), 'TUESDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'TUESDAY', '10:00:00', '12:00:00', 'MANHA'),
 (nextval('schedules_seq'), 'TUESDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'TUESDAY', '16:00:00', '18:00:00', 'TARDE'),
 (nextval('schedules_seq'), 'TUESDAY', '19:00:00', '21:00:00', 'NOITE'),
-
--- Quarta-feira
+(nextval('schedules_seq'), 'TUESDAY', '21:00:00', '23:00:00', 'NOITE'),
 (nextval('schedules_seq'), 'WEDNESDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'WEDNESDAY', '10:00:00', '12:00:00', 'MANHA'),
 (nextval('schedules_seq'), 'WEDNESDAY', '14:00:00', '16:00:00', 'TARDE'),
-(nextval('schedules_seq'), 'WEDNESDAY', '19:00:00', '21:00:00', 'NOITE');
+(nextval('schedules_seq'), 'WEDNESDAY', '16:00:00', '18:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'WEDNESDAY', '19:00:00', '21:00:00', 'NOITE'),
+(nextval('schedules_seq'), 'WEDNESDAY', '21:00:00', '23:00:00', 'NOITE'),
+(nextval('schedules_seq'), 'THURSDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'THURSDAY', '10:00:00', '12:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'THURSDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'THURSDAY', '16:00:00', '18:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'THURSDAY', '19:00:00', '21:00:00', 'NOITE'),
+(nextval('schedules_seq'), 'THURSDAY', '21:00:00', '23:00:00', 'NOITE'),
+(nextval('schedules_seq'), 'FRIDAY', '08:00:00', '10:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'FRIDAY', '10:00:00', '12:00:00', 'MANHA'),
+(nextval('schedules_seq'), 'FRIDAY', '14:00:00', '16:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'FRIDAY', '16:00:00', '18:00:00', 'TARDE'),
+(nextval('schedules_seq'), 'FRIDAY', '19:00:00', '21:00:00', 'NOITE'),
+(nextval('schedules_seq'), 'FRIDAY', '21:00:00', '23:00:00', 'NOITE');

@@ -4,8 +4,10 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -15,6 +17,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
  * Exemplo: Segunda-feira 08:00-10:00 (MANHA)
  */
 
+@Entity
+@Table(name = "schedules")
 public class Schedule extends PanacheEntity {
 
     /**
