@@ -30,3 +30,4 @@ INSERT INTO professors (id, registration, name, email, title, department) VALUES
 (nextval('professors_seq'), '2600106', 'Julia Emilia', 'julia.emilia@unifor.br', 'Doutora', 'Ciência da Computação');
 (nextval('professors_seq'), '2600107', 'Ana Carvalho', 'ana.carvalho@unifor.br', 'Doutora', 'Ciência da Computação');
 (nextval('professors_seq'), '2600108', 'Agatha Ferreira', 'agatha.ferreira@unifor.br', 'Doutora', 'Ciência da Computação');
+(nextval('professors_seq'), '2600109', 'Jana Moreira', 'jana.moreira@unifor.br', 'Doutora', 'Ciência da Computação');

@@ -1,5 +1,6 @@
 package br.edu.unifor.domain.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,18 +20,30 @@ public class ProfessorRepository implements PanacheRepository<Professor> {
     }
 
     /**
-     * Busca professores por departamento.
-     * Útil para os filtros de pesquisa exigidos pelo coordenador.
+     * Busca um professor pela matrícula.
      */
-    public java.util.List<Professor> findByDepartment(String department) {
+    public Optional<Professor> findByRegistration(String registration) {
+        return find("registration", registration).firstResultOptional();
+    }
+
+    /**
+     * Busca professores por departamento.
+     */
+    public List<Professor> findByDepartment(String department) {
         return list("department", department);
     }
 
     /**
-     * Verifica se um professor existe pela maticula.
-     * Requisito obrigatório para validar a criação de aulas na matriz.
+     * Verifica se um professor existe pela matrícula.
      */
     public boolean existsByRegistration(String registration) {
         return count("registration", registration) > 0;
+    }
+    
+    /**
+     * Verifica se um email já está cadastrado.
+     */
+    public boolean existsByEmail(String email) {  
+        return count("email", email) > 0;
     }
 }

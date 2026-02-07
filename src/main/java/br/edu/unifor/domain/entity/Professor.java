@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -17,6 +18,7 @@ public class Professor extends PanacheEntity {
      * os 2 primeiros são o ano de cadastro e os 5 últimos são um número aleatório.
      */
     @NotBlank(message = "A matrícula é obrigatória")
+    @Pattern(regexp = "\\d{7}", message = "A matrícula deve ter exatamente 7 dígitos")
     @Column(unique = true, nullable = false, length = 7)
     public String registration;
 
@@ -49,4 +51,17 @@ public class Professor extends PanacheEntity {
         this.title = title;
         this.department = department;
     }
+
+    @Override
+    public String toString() {
+        return "Professor{" +
+                "id=" + id +
+                ", registration='" + registration + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", title='" + title + '\'' +
+                ", department='" + department + '\'' +
+                '}';
+    }
+
 }
