@@ -1,10 +1,11 @@
-package main.java.br.edu.unifor.domain.entity;
+package br.edu.unifor.domain.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Entidade que representa uma Disciplina do curso.
