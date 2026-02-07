@@ -1,8 +1,3 @@
-
--- ============================================
--- HORÁRIOS
--- ============================================
-
 INSERT INTO schedules (id, dayofweek, starttime, endtime, period) VALUES 
 (nextval('schedules_seq'), 'MONDAY', '08:00:00', '10:00:00', 'MANHA'),
 (nextval('schedules_seq'), 'MONDAY', '10:00:00', '12:00:00', 'MANHA'),

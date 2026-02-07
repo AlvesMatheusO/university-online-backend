@@ -1,6 +1,3 @@
--- ============================================
--- DISCIPLINAS
--- ============================================
 INSERT INTO subjects (id, code, name, workload, credits, description) VALUES 
 (nextval('subjects_seq'), 'MAT001', 'Cálculo I', 80, 4, 'Introdução ao cálculo diferencial e integral'),
 (nextval('subjects_seq'), 'MAT002', 'Cálculo II', 80, 4, 'Continuação de Cálculo I'),
