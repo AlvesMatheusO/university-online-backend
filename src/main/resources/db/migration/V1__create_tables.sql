@@ -12,7 +12,7 @@
 CREATE SEQUENCE subjects_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE professors_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE schedules_seq START WITH 1 INCREMENT BY 50;
-
+CREATE SEQUENCE courses_seq START WITH 1 INCREMENT BY 50;
 -- =========================
 -- TABLE: subjects
 -- Stores academic subjects/disciplines
@@ -76,6 +76,13 @@ COMMENT ON TABLE schedules IS 'Available time slots for classes';
 COMMENT ON COLUMN schedules.day_of_week IS 'Day of week in English (MONDAY, TUESDAY, etc)';
 COMMENT ON COLUMN schedules.period IS 'Period of day (MANHA, TARDE, NOITE)';
 
+CREATE TABLE courses (
+    id BIGINT PRIMARY KEY DEFAULT nextval('courses_seq'),
+    code VARCHAR(20) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    active BOOLEAN NOT NULL
+);
 -- =========================
 -- INDEXES
 -- =========================
@@ -84,6 +91,7 @@ CREATE INDEX idx_subjects_code ON subjects(code);
 CREATE INDEX idx_professors_registration ON professors(registration);
 CREATE INDEX idx_professors_email ON professors(email);
 CREATE INDEX idx_schedules_day_period ON schedules(day_of_week, period);
+CREATE INDEX idx_courses_code ON courses(code);
 
 -- ============================================
 -- END OF V1
