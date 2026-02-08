@@ -1,10 +1,12 @@
 package br.edu.unifor.domain.repository;
 
-import br.edu.unifor.domain.entity.Subject;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import java.util.List;
+import java.util.Optional;
+
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Optional;
+import br.edu.unifor.domain.entity.Subject;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 /**
  * Repository para operações com Disciplina.
@@ -31,6 +33,10 @@ public class SubjectRepository implements PanacheRepository<Subject> {
      */
     public boolean existsByCode(String codigo) {
        return count("code", codigo) > 0;
+    }
+
+    public List<Subject> findByCredits(Integer credits) {
+        return find("credits", credits).list();
     }
     
 }
