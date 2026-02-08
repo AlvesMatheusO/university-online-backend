@@ -69,14 +69,14 @@ public class Class extends PanacheEntity {
      * Requisito do desafio: controlar vagas disponíveis.
      */
     @Positive(message = "A capacidade deve ser positiva")
-    @Column(nullable = false)
+    @Column(name = "max_capacity", nullable = false)
     public Integer maxCapacity;
 
     /**
      * Número atual de alunos matriculados.
      * Calculado automaticamente através das matrículas ativas.
      */
-    @Column(nullable = false)
+    @Column(name = "enrolled_students", nullable = false)
     public Integer enrolledStudents = 0;
 
     /**

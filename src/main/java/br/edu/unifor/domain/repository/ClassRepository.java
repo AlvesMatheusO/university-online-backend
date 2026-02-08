@@ -135,4 +135,7 @@ public class ClassRepository implements PanacheRepository<Class> {
         return count("course.id = ?1 and status = ?2", courseId, ClassStatus.ATIVA);
     }
 
+    public long countActiveBySubject(Long subjectId) {
+        return count("subject.id = ?1 and status = ?2", subjectId, ClassStatus.ATIVA);
+    }
 }

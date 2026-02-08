@@ -5,8 +5,8 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
+import br.edu.unifor.application.dto.request.CreateClassRequest;
 import br.edu.unifor.domain.entity.Class;
 import br.edu.unifor.domain.entity.Class.ClassStatus;
 import br.edu.unifor.domain.entity.Course;
@@ -59,46 +59,47 @@ public class ClassService {
      * - Código deve ser único
      */
     @Transactional
-    public Class createClass(@Valid Class classEntity) {
+    public Class create(CreateClassRequest dto) {
 
-        // Validar se subject existe
-        Subject subject = subjectRepository.findByIdOptional(classEntity.subject.id)
+        Subject subject = subjectRepository.findByIdOptional(dto.subjectId)
                 .orElseThrow(() -> new RuntimeException(
-                        "Disciplina não encontrada: " + classEntity.subject.id));
+                        "Disciplina não encontrada: " + dto.subjectId));
 
-        // Validar se professor existe
-        Professor professor = professorRepository.findByIdOptional(classEntity.professor.id)
-                .orElseThrow(() -> new ProfessorNotFoundException(classEntity.professor.id));
+        Professor professor = professorRepository.findByIdOptional(dto.professorId)
+                .orElseThrow(() -> new ProfessorNotFoundException(dto.professorId));
 
-        // Validar se schedule existe
-        Schedule schedule = scheduleRepository.findByIdOptional(classEntity.schedule.id)
+        Schedule schedule = scheduleRepository.findByIdOptional(dto.scheduleId)
                 .orElseThrow(() -> new RuntimeException(
-                        "Horário não encontrado: " + classEntity.schedule.id));
+                        "Horário não encontrado: " + dto.scheduleId));
 
-        // Validar se course existe
-        Course course = courseRepository.findByIdOptional(classEntity.course.id)
-                .orElseThrow(() -> new CourseNotFoundException(classEntity.course.id));
+        Course course = courseRepository.findByIdOptional(dto.courseId)
+                .orElseThrow(() -> new CourseNotFoundException(dto.courseId));
 
-        // Verificar conflito de horário do professor
-        if (classRepository.hasProfessorScheduleConflict(professor.id, schedule.id, null)) {
-            String scheduleInfo = String.format("%s às %s",
-                    schedule.dayOfWeek, schedule.startTime);
-            throw new ProfessorScheduleConflictException(professor.name, scheduleInfo);
+        if (classRepository.hasProfessorScheduleConflict(
+                professor.id, schedule.id, null)) {
+
+            String scheduleInfo = String.format(
+                    "%s às %s", schedule.dayOfWeek, schedule.startTime);
+
+            throw new ProfessorScheduleConflictException(
+                    professor.name, scheduleInfo);
         }
 
-        // Validar código único
-        if (classRepository.existsByCode(classEntity.code)) {
+        if (classRepository.existsByCode(dto.code)) {
             throw new IllegalArgumentException(
-                    "Já existe uma turma com o código: " + classEntity.code);
+                    "Já existe uma turma com o código: " + dto.code);
         }
 
+        Class classEntity = new Class();
+        classEntity.code = dto.code;
         classEntity.subject = subject;
         classEntity.professor = professor;
         classEntity.schedule = schedule;
         classEntity.course = course;
-
+        classEntity.maxCapacity = dto.maxCapacity;
         classEntity.enrolledStudents = 0;
-        classEntity.status = ClassStatus.ATIVA;
+        classEntity.semester = dto.semester;
+        classEntity.status = ClassStatus.valueOf(dto.status);
 
         classRepository.persist(classEntity);
         return classEntity;
