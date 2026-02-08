@@ -37,7 +37,7 @@ public class Coordinator extends PanacheEntity {
      * Exemplo: 2612345
      */
     @NotBlank(message = "A matrícula é obrigatória")
-    @Column(unique = true, nullable = false, length = 7)
+    @Column(unique = true, nullable = false, length = 20)
     public String registration;
 
     /**
@@ -98,6 +98,7 @@ public class Coordinator extends PanacheEntity {
         this.phone = phone;
         this.department = department;
     }
+
 
     /**
      * Adiciona um curso à lista de cursos coordenados.

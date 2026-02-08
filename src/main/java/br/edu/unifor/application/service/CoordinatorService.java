@@ -5,8 +5,9 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
+import br.edu.unifor.application.dto.request.CreateCoordinatorRequest;
+import br.edu.unifor.application.dto.request.UpdateCoordinatorRequest;
 import br.edu.unifor.domain.entity.Coordinator;
 import br.edu.unifor.domain.entity.Course;
 import br.edu.unifor.domain.repository.CoordinatorRepository;
@@ -46,18 +47,23 @@ public class CoordinatorService {
      */
 
     @Transactional
-    public Coordinator createCoordinator(@Valid Coordinator coordinator) {
+    public Coordinator create(CreateCoordinatorRequest dto) {
 
         // Validar email duplicado
-        if (coordinatorRepository.existsByEmail(coordinator.email)) {
-            throw new EmailAlreadyExistException(coordinator.email);
+        if (coordinatorRepository.existsByEmail(dto.email)) {
+            throw new EmailAlreadyExistException(dto.email);
         }
+
+        Coordinator coordinator = new Coordinator();
+        coordinator.name = dto.name;
+        coordinator.email = dto.email;
+        coordinator.phone = dto.phone;
+        coordinator.department = dto.department;
 
         // Gerar matrícula única
         coordinator.registration = registrationService.generateUnique(
                 coordinatorRepository::existsByRegistration);
 
-        // Garantir que começa ativo
         coordinator.active = true;
 
         coordinatorRepository.persist(coordinator);
@@ -184,21 +190,20 @@ public class CoordinatorService {
      * @return Coordenador atualizado
      */
     @Transactional
-    public Coordinator update(Long id, Coordinator coordinatorAtualizado) {
+    public Coordinator update(Long id, UpdateCoordinatorRequest dto) {
         Coordinator coordinator = findById(id);
 
-        // Validar email se foi alterado
-        if (!coordinator.email.equals(coordinatorAtualizado.email)) {
-            if (coordinatorRepository.existsByEmail(coordinatorAtualizado.email)) {
-                throw new EmailAlreadyExistException(coordinatorAtualizado.email);
+        // Validar email se mudou
+        if (!coordinator.email.equals(dto.email)) {
+            if (coordinatorRepository.existsByEmail(dto.email)) {
+                throw new EmailAlreadyExistException(dto.email);
             }
         }
 
-        // Atualizar campos (matrícula não muda)
-        coordinator.name = coordinatorAtualizado.name;
-        coordinator.email = coordinatorAtualizado.email;
-        coordinator.phone = coordinatorAtualizado.phone;
-        coordinator.department = coordinatorAtualizado.department;
+        coordinator.name = dto.name;
+        coordinator.email = dto.email;
+        coordinator.phone = dto.phone;
+        coordinator.department = dto.department;
 
         return coordinator;
     }

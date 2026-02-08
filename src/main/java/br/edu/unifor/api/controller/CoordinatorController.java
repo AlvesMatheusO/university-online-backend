@@ -3,6 +3,7 @@ package br.edu.unifor.api.controller;
 import java.util.List;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -19,6 +20,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import br.edu.unifor.application.dto.request.CreateCoordinatorRequest;
+import br.edu.unifor.application.dto.request.UpdateCoordinatorRequest;
 import br.edu.unifor.application.service.CoordinatorService;
 import br.edu.unifor.domain.entity.Coordinator;
 
@@ -66,42 +69,24 @@ public class CoordinatorController {
     @Path("/{id}")
     @Operation(summary = "Buscar coordenador por ID")
     public Response findById(@PathParam("id") Long id) {
-        try {
-            Coordinator coordinator = coordinatorService.findById(id);
-            return Response.ok(coordinator).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        Coordinator coordinator = coordinatorService.findById(id);
+        return Response.ok(coordinator).build();
     }
 
     @GET
     @Path("/registration/{registration}")
     @Operation(summary = "Buscar coordenador por matrícula")
     public Response findByRegistration(@PathParam("registration") String registration) {
-        try {
-            Coordinator coordinator = coordinatorService.findByRegistration(registration);
-            return Response.ok(coordinator).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        Coordinator coordinator = coordinatorService.findByRegistration(registration);
+        return Response.ok(coordinator).build();
     }
 
     @GET
     @Path("/email/{email}")
     @Operation(summary = "Buscar coordenador por email")
     public Response findByEmail(@PathParam("email") String email) {
-        try {
-            Coordinator coordinator = coordinatorService.findByEmail(email);
-            return Response.ok(coordinator).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        Coordinator coordinator = coordinatorService.findByEmail(email);
+        return Response.ok(coordinator).build();
     }
 
     @GET
@@ -123,15 +108,9 @@ public class CoordinatorController {
     @APIResponse(responseCode = "201", description = "Coordenador criado")
     @APIResponse(responseCode = "400", description = "Dados inválidos")
     @APIResponse(responseCode = "409", description = "Email já cadastrado")
-    public Response create(Coordinator coordinator) {
-        try {
-            Coordinator created = coordinatorService.createCoordinator(coordinator);
-            return Response.status(Response.Status.CREATED).entity(created).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+    public Response create(@Valid CreateCoordinatorRequest dto) {
+        Coordinator created = coordinatorService.create(dto);
+        return Response.status(Response.Status.CREATED).entity(created).build();
     }
 
     @POST
@@ -176,16 +155,12 @@ public class CoordinatorController {
 
     @PUT
     @Path("/{id}")
-    @Operation(summary = "Atualizar coordenador")
-    public Response update(@PathParam("id") Long id, Coordinator coordinator) {
-        try {
-            Coordinator updated = coordinatorService.update(id, coordinator);
-            return Response.ok(updated).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+    public Response update(
+            @PathParam("id") Long id,
+            @Valid UpdateCoordinatorRequest dto) {
+
+        Coordinator updated = coordinatorService.update(id, dto);
+        return Response.ok(updated).build();
     }
 
     @PATCH
