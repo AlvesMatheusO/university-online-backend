@@ -14,6 +14,9 @@ public record CreateCourseRequest(
     @NotBlank(message = "O departamento do curso é obrigatório")
     String department,
 
+    @NotBlank(message = "A duração do curso é obrigatória")
+    Integer duration,
+
     @NotNull(message = "O status do curso é obrigatório")
     Boolean active
 

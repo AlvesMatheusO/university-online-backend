@@ -81,8 +81,12 @@ CREATE TABLE courses (
     code VARCHAR(20) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     department VARCHAR(100) NOT NULL,
-    active BOOLEAN NOT NULL
+    duration INTEGER,                    
+    active BOOLEAN NOT NULL,
+    
+    CONSTRAINT courses_duration_positive CHECK (duration > 0)  
 );
+
 -- =========================
 -- INDEXES
 -- =========================

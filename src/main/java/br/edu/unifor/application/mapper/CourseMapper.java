@@ -13,6 +13,7 @@ public class CourseMapper {
             dto.code(),
             dto.name(),
             dto.department(),
+            dto.duration(),
             dto.active()
         );
     }
