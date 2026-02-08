@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import br.edu.unifor.domain.entity.Course;
 import br.edu.unifor.domain.entity.Student;
 import br.edu.unifor.domain.repository.CourseRepository;
+import br.edu.unifor.domain.repository.EnrollmentRepository;
 import br.edu.unifor.domain.repository.StudentRepository;
 import br.edu.unifor.infrastructure.exception.CourseNotFoundException;
 import br.edu.unifor.infrastructure.exception.CpfAlreadyExistsException;
@@ -29,6 +30,9 @@ public class StudentService {
     @Inject
     RegistrationService registrationService;
 
+    @Inject
+    EnrollmentRepository enrollmentRepository;
+    
     /**
      * Cria um novo aluno no sistema.
      * 
@@ -227,9 +231,9 @@ public class StudentService {
     @Transactional
     public void delete(Long id) {
         Student student = findById(id);
-        long activeEnrollments = countActiveByCourse(student.id);
+        long activeEnrollments = enrollmentRepository.countActiveByStudent(student.id);
         if (activeEnrollments > 0) {
-            throw new StudentHasActiveEnrollmentsException(student.id, activeEnrollments);
+            throw new StudentHasActiveEnrollmentsException(student.name, activeEnrollments);
         }
         studentRepository.delete(student);
     }
