@@ -55,7 +55,7 @@ public class Schedule extends PanacheEntity {
     public Schedule() {
     }
 
-    public Schedule(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, Period period) {
+    public Schedule(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
