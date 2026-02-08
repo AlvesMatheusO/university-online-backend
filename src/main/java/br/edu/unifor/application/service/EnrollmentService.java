@@ -6,8 +6,8 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
+import br.edu.unifor.application.dto.request.CreateEnrollmentRequest;
 import br.edu.unifor.domain.entity.Class;
 import br.edu.unifor.domain.entity.Enrollment;
 import br.edu.unifor.domain.entity.Enrollment.EnrollmentStatus;
@@ -59,20 +59,18 @@ public class EnrollmentService {
      * @return Matrícula criada
      */
     @Transactional
-    public Enrollment createEnrollment(@Valid Enrollment enrollment) {
+    public Enrollment create(CreateEnrollmentRequest dto) {
 
-        // VALIDAÇÃO 1: Aluno existe e está ativo
-        Student student = studentRepository.findByIdOptional(enrollment.student.id)
-                .orElseThrow(() -> new StudentNotFoundException(enrollment.student.id));
+        Student student = studentRepository.findByIdOptional(dto.studentId)
+                .orElseThrow(() -> new StudentNotFoundException(dto.studentId));
 
         if (!student.isActive) {
             throw new IllegalStateException(
                     "Não é possível matricular o aluno '" + student.name + "' pois ele está inativo.");
         }
 
-        // VALIDAÇÃO 2: Turma existe e está ativa
-        Class classEntity = classRepository.findByIdOptional(enrollment.classEntity.id)
-                .orElseThrow(() -> new ClassNotFoundException(enrollment.classEntity.id));
+        Class classEntity = classRepository.findByIdOptional(dto.classId)
+                .orElseThrow(() -> new ClassNotFoundException(dto.classId));
 
         if (classEntity.status != Class.ClassStatus.ATIVA) {
             throw new IllegalStateException(
@@ -80,17 +78,14 @@ public class EnrollmentService {
                             "' pois ela não está ativa. Status atual: " + classEntity.status);
         }
 
-        // VALIDAÇÃO 3: Turma tem vagas disponíveis
         if (!classEntity.hasAvailableSlots()) {
             throw new ClassFullException(classEntity.code, classEntity.maxCapacity);
         }
 
-        // VALIDAÇÃO 4: Aluno já matriculado na turma
         if (enrollmentRepository.isStudentEnrolledInClass(student.id, classEntity.id)) {
             throw new AlreadyEnrolledException(student.name, classEntity.code);
         }
 
-        // VALIDAÇÃO 5: Conflito de horário do aluno
         Schedule schedule = classEntity.schedule;
         if (enrollmentRepository.hasStudentScheduleConflict(student.id, schedule.id, null)) {
             String scheduleInfo = String.format("%s às %s",
@@ -98,9 +93,9 @@ public class EnrollmentService {
             throw new StudentScheduleConflictException(student.name, scheduleInfo);
         }
 
+        Enrollment enrollment = new Enrollment();
         enrollment.student = student;
         enrollment.classEntity = classEntity;
-
         enrollment.status = EnrollmentStatus.ATIVA;
 
         classEntity.incrementEnrollment();

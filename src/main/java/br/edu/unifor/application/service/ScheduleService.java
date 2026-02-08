@@ -5,7 +5,10 @@ import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
+import br.edu.unifor.application.dto.request.CreateScheduleRequest;
+import br.edu.unifor.application.dto.request.UpdateScheduleRequest;
 import br.edu.unifor.domain.entity.Schedule;
 import br.edu.unifor.domain.entity.Schedule.Period;
 import br.edu.unifor.domain.repository.ScheduleRepository;
@@ -58,5 +61,29 @@ public class ScheduleService {
      */
     public boolean exists(Long id) {
         return scheduleRepository.findByIdOptional(id).isPresent();
+    }
+
+    @Transactional
+    public Schedule create(CreateScheduleRequest dto) {
+        Schedule schedule = new Schedule();
+        schedule.dayOfWeek = dto.dayOfWeek;
+        schedule.startTime = dto.startTime;
+        schedule.endTime = dto.endTime;
+        schedule.period = dto.period;
+
+        scheduleRepository.persist(schedule);
+        return schedule;
+    }
+
+    @Transactional
+    public Schedule update(Long id, UpdateScheduleRequest dto) {
+        Schedule schedule = findById(id);
+        schedule.dayOfWeek = dto.dayOfWeek;
+        schedule.startTime = dto.startTime;
+        schedule.endTime = dto.endTime;
+        schedule.period = dto.period;
+
+        scheduleRepository.persist(schedule);
+        return schedule;
     }
 }

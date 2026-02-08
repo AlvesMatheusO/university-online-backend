@@ -5,8 +5,9 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
+import br.edu.unifor.application.dto.request.CreateProfessorRequest;
+import br.edu.unifor.application.dto.request.UpdateProfessorRequest;
 import br.edu.unifor.domain.entity.Professor;
 import br.edu.unifor.domain.repository.ProfessorRepository;
 import br.edu.unifor.infrastructure.exception.EmailAlreadyExistException;
@@ -26,13 +27,18 @@ public class ProfessorService {
      * Gera matrícula automaticamente e valida email único.
      */
     @Transactional
-    public Professor createProfessor(@Valid Professor professor) {
+    public Professor create(CreateProfessorRequest dto) {
 
-        if (professorRepository.existsByEmail(professor.email)) {
-            throw new EmailAlreadyExistException(professor.email);
+        if (professorRepository.existsByEmail(dto.email)) {
+            throw new EmailAlreadyExistException(dto.email);
         }
 
-        // Gerar matrícula única
+        Professor professor = new Professor();
+        professor.name = dto.name;
+        professor.email = dto.email;
+        professor.title = dto.title;
+        professor.department = dto.department;
+
         professor.registration = registrationService.generateUnique(
                 professorRepository::existsByRegistration);
 
@@ -85,21 +91,19 @@ public class ProfessorService {
      * A matrícula não pode ser alterada.
      */
     @Transactional
-    public Professor update(Long id, Professor professorAtualizado) {
+    public Professor update(Long id, UpdateProfessorRequest dto) {
         Professor professor = findById(id);
 
-        // Validar email se foi alterado
-        if (!professor.email.equals(professorAtualizado.email)) {
-            if (professorRepository.existsByEmail(professorAtualizado.email)) {
-                throw new EmailAlreadyExistException(professorAtualizado.email);
+        if (!professor.email.equals(dto.email)) {
+            if (professorRepository.existsByEmail(dto.email)) {
+                throw new EmailAlreadyExistException(dto.email);
             }
         }
 
-        // Atualizar campos (matrícula não muda)
-        professor.name = professorAtualizado.name;
-        professor.email = professorAtualizado.email;
-        professor.title = professorAtualizado.title;
-        professor.department = professorAtualizado.department;
+        professor.name = dto.name;
+        professor.email = dto.email;
+        professor.title = dto.title;
+        professor.department = dto.department;
 
         return professor;
     }
@@ -114,5 +118,4 @@ public class ProfessorService {
         professorRepository.delete(professor);
     }
 
-    
 }

@@ -5,8 +5,9 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
+import br.edu.unifor.application.dto.request.CreateStudentRequest;
+import br.edu.unifor.application.dto.request.UpdateStudentRequest;
 import br.edu.unifor.domain.entity.Course;
 import br.edu.unifor.domain.entity.Student;
 import br.edu.unifor.domain.repository.CourseRepository;
@@ -32,7 +33,7 @@ public class StudentService {
 
     @Inject
     EnrollmentRepository enrollmentRepository;
-    
+
     /**
      * Cria um novo aluno no sistema.
      * 
@@ -50,29 +51,29 @@ public class StudentService {
      */
 
     @Transactional
-    public Student createStudent(@Valid Student student) {
+    public Student create(CreateStudentRequest dto) {
 
-        // Validar email duplicado
-        if (studentRepository.existsByEmail(student.email)) {
-            throw new EmailAlreadyExistException(student.email);
+        if (studentRepository.existsByEmail(dto.email)) {
+            throw new EmailAlreadyExistException(dto.email);
         }
 
-        // Validar CPF duplicado
-        if (studentRepository.existsByCpf(student.cpf)) {
-            throw new CpfAlreadyExistsException(student.cpf);
+        if (studentRepository.existsByCpf(dto.cpf)) {
+            throw new CpfAlreadyExistsException(dto.cpf);
         }
 
-        // Validar se o curso existe
-        Course course = courseRepository.findByIdOptional(student.course.id)
-                .orElseThrow(() -> new CourseNotFoundException(student.course.id));
+        Course course = courseRepository.findByIdOptional(dto.courseId)
+                .orElseThrow(() -> new CourseNotFoundException(dto.courseId));
 
+        Student student = new Student();
+        student.name = dto.name;
+        student.email = dto.email;
+        student.cpf = dto.cpf;
+        student.phone = dto.phone;
         student.course = course;
 
-        // Gerar matrícula única
         student.registration = registrationService.generateUnique(
                 studentRepository::existsByRegistration);
 
-        // Garantir que o aluno começa ativo
         student.isActive = true;
 
         studentRepository.persist(student);
@@ -164,35 +165,29 @@ public class StudentService {
      */
 
     @Transactional
-    public Student update(Long id, Student studentAtualizado) {
+    public Student update(Long id, UpdateStudentRequest dto) {
         Student student = findById(id);
 
-        // Validar email se foi alterado
-        if (!student.email.equals(studentAtualizado.email)) {
-            if (studentRepository.existsByEmail(studentAtualizado.email)) {
-                throw new EmailAlreadyExistException(studentAtualizado.email);
+        if (!student.email.equals(dto.email)) {
+            if (studentRepository.existsByEmail(dto.email)) {
+                throw new EmailAlreadyExistException(dto.email);
             }
         }
 
-        // Validar CPF se foi alterado
-        if (!student.cpf.equals(studentAtualizado.cpf)) {
-            if (studentRepository.existsByCpf(studentAtualizado.cpf)) {
-                throw new CpfAlreadyExistsException(studentAtualizado.cpf);
+        if (!student.cpf.equals(dto.cpf)) {
+            if (studentRepository.existsByCpf(dto.cpf)) {
+                throw new CpfAlreadyExistsException(dto.cpf);
             }
         }
 
-        // Atualizar campos (matrícula não muda)
-        student.name = studentAtualizado.name;
-        student.email = studentAtualizado.email;
-        student.cpf = studentAtualizado.cpf;
-        student.phone = studentAtualizado.phone;
+        Course course = courseRepository.findByIdOptional(dto.courseId)
+                .orElseThrow(() -> new CourseNotFoundException(dto.courseId));
 
-        // Validar e atualizar curso se mudou
-        if (!student.course.id.equals(studentAtualizado.course.id)) {
-            Course course = courseRepository.findByIdOptional(studentAtualizado.course.id)
-                    .orElseThrow(() -> new CourseNotFoundException(studentAtualizado.course.id));
-            student.course = course;
-        }
+        student.name = dto.name;
+        student.email = dto.email;
+        student.cpf = dto.cpf;
+        student.phone = dto.phone;
+        student.course = course;
 
         return student;
     }
