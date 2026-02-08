@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -21,6 +22,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import br.edu.unifor.application.dto.request.CompleteEnrollmentRequest;
+import br.edu.unifor.application.dto.request.CreateEnrollmentRequest;
 import br.edu.unifor.application.service.EnrollmentService;
 import br.edu.unifor.domain.entity.Enrollment;
 import br.edu.unifor.domain.entity.Enrollment.EnrollmentStatus;
@@ -66,14 +69,9 @@ public class EnrollmentController {
     @Path("/{id}")
     @Operation(summary = "Buscar matrícula por ID")
     public Response findById(@PathParam("id") Long id) {
-        try {
-            Enrollment enrollment = enrollmentService.findById(id);
-            return Response.ok(enrollment).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        Enrollment enrollment = enrollmentService.findById(id);
+        return Response.ok(enrollment).build();
+
     }
 
     @GET
@@ -124,16 +122,9 @@ public class EnrollmentController {
     @Path("/status")
     @Operation(summary = "Listar matrículas por status")
     public List<Enrollment> findByStatus(
-            @Parameter(description = "Status (ATIVA, CANCELADA, CONCLUIDA, TRANCADA)") 
-            @QueryParam("value") String status) {
-        try {
-            EnrollmentStatus enrollmentStatus = EnrollmentStatus.valueOf(status.toUpperCase());
-            return enrollmentService.findByStatus(enrollmentStatus);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
-                "Status inválido. Use: ATIVA, CANCELADA, CONCLUIDA ou TRANCADA"
-            );
-        }
+            @Parameter(description = "Status (ATIVA, CANCELADA, CONCLUIDA, TRANCADA)") @QueryParam("value") String status) {
+        EnrollmentStatus enrollmentStatus = EnrollmentStatus.valueOf(status.toUpperCase());
+        return enrollmentService.findByStatus(enrollmentStatus);
     }
 
     @POST
@@ -141,89 +132,45 @@ public class EnrollmentController {
     @APIResponse(responseCode = "201", description = "Matrícula criada")
     @APIResponse(responseCode = "400", description = "Dados inválidos")
     @APIResponse(responseCode = "409", description = "Conflito (turma cheia, duplicada ou horário)")
-    public Response create(Enrollment enrollment) {
-        try {
-            Enrollment created = enrollmentService.createEnrollment(enrollment);
-            return Response.status(Response.Status.CREATED).entity(created).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+    public Response create(@Valid CreateEnrollmentRequest dto) {
+        Enrollment created = enrollmentService.create(dto);
+        return Response.status(Response.Status.CREATED).entity(created).build();
     }
 
     @PATCH
     @Path("/{id}/cancel")
-    @Operation(
-        summary = "Cancelar matrícula",
-        description = "Cancela uma matrícula ativa. Decrementa contador da turma."
-    )
+    @Operation(summary = "Cancelar matrícula", description = "Cancela uma matrícula ativa. Decrementa contador da turma.")
     @APIResponse(responseCode = "204", description = "Matrícula cancelada")
     public Response cancel(
             @PathParam("id") Long id,
             @Parameter(description = "Motivo do cancelamento") @QueryParam("reason") String reason) {
-        try {
-            enrollmentService.cancel(id, reason);
-            return Response.noContent().build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        enrollmentService.cancel(id, reason);
+        return Response.noContent().build();
     }
 
     @PATCH
     @Path("/{id}/complete")
-    @Operation(summary = "Marcar matrícula como concluída")
-    @APIResponse(responseCode = "204", description = "Matrícula concluída")
     public Response complete(
             @PathParam("id") Long id,
-            @Parameter(description = "Nota final (0-10)") @QueryParam("grade") BigDecimal grade,
-            @Parameter(description = "Frequência (0-100%)") @QueryParam("attendance") BigDecimal attendance) {
-        try {
-            enrollmentService.complete(id, grade, attendance);
-            return Response.noContent().build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+            @Valid CompleteEnrollmentRequest dto) {
+        enrollmentService.complete(id, dto.grade, dto.attendance);
+        return Response.noContent().build();
     }
 
     @PUT
     @Path("/{id}/grade")
-    @Operation(summary = "Atualizar nota e frequência")
-    @APIResponse(responseCode = "200", description = "Nota atualizada")
-    public Response updateGrade(
+    public Enrollment updateGrade(
             @PathParam("id") Long id,
             @QueryParam("grade") BigDecimal grade,
             @QueryParam("attendance") BigDecimal attendance) {
-        try {
-            Enrollment updated = enrollmentService.updateGradeAndAttendance(id, grade, attendance);
-            return Response.ok(updated).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        return enrollmentService.updateGradeAndAttendance(id, grade, attendance);
     }
 
     @DELETE
     @Path("/{id}")
-    @Operation(
-        summary = "Remover matrícula",
-        description = "Remove permanentemente (hard delete). Prefira usar cancel."
-    )
-    @APIResponse(responseCode = "204", description = "Matrícula removida")
     public Response delete(@PathParam("id") Long id) {
-        try {
-            enrollmentService.delete(id);
-            return Response.noContent().build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(createErrorResponse(e.getMessage()))
-                    .build();
-        }
+        enrollmentService.delete(id);
+        return Response.noContent().build();
     }
 
     @GET
@@ -248,9 +195,5 @@ public class EnrollmentController {
     public Response countByCourse(@PathParam("courseId") Long courseId) {
         long count = enrollmentService.countByCourse(courseId);
         return Response.ok("{\"count\": " + count + "}").build();
-    }
-
-    private String createErrorResponse(String message) {
-        return String.format("{\"error\": \"%s\"}", message.replace("\"", "\\\""));
     }
 }

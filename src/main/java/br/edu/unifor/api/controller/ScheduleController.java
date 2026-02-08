@@ -23,7 +23,7 @@ import br.edu.unifor.domain.entity.Schedule.Period;
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Schedules", description = "Gerenciamento de horários")
 public class ScheduleController {
-    
+
     @Inject
     ScheduleService scheduleService;
 
@@ -33,66 +33,35 @@ public class ScheduleController {
         return scheduleService.getAllSchedules();
     }
 
-     @GET
+    @GET
     @Path("/{id}")
     @Operation(summary = "Buscar horário por ID")
     public Response findById(@PathParam("id") Long id) {
-        try {
-            Schedule schedule = scheduleService.findById(id);
-            return Response.ok(schedule).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(e.getMessage())
-                    .build();
-        }
+        Schedule schedule = scheduleService.findById(id);
+        return Response.ok(schedule).build();
     }
 
-     @GET
+    @GET
     @Path("/day/{dayOfWeek}")
     @Operation(summary = "Buscar horários por dia da semana")
-    public Response findByDay(@PathParam("dayOfWeek") String dayOfWeek) {
-        try {
-            DayOfWeek day = DayOfWeek.valueOf(dayOfWeek.toUpperCase());
-            List<Schedule> schedules = scheduleService.getSchedulesByDay(day);
-            return Response.ok(schedules).build();
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Dia inválido. Use: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY")
-                    .build();
-        }
+    public List<Schedule> findByDay(@PathParam("dayOfWeek") DayOfWeek dayOfWeek) {
+        return scheduleService.getSchedulesByDay(dayOfWeek);
     }
 
     @GET
     @Path("/period")
     @Operation(summary = "Buscar horários por período")
-    public Response findByPeriod(@QueryParam("value") String period) {
-        try {
-            Period periodEnum = Period.valueOf(period.toUpperCase());
-            List<Schedule> schedules = scheduleService.getSchedulesByPeriod(periodEnum);
-            return Response.ok(schedules).build();
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Período inválido. Use: MANHA, TARDE, NOITE")
-                    .build();
-        }
+    public List<Schedule> findByPeriod(@QueryParam("value") Period period) {
+        return scheduleService.getSchedulesByPeriod(period);
     }
 
-     @GET
+    @GET
     @Path("/filter")
     @Operation(summary = "Buscar horários por dia e período")
-    public Response findByDayAndPeriod(
-            @QueryParam("day") String dayOfWeek,
-            @QueryParam("period") String period) {
-        try {
-            DayOfWeek day = DayOfWeek.valueOf(dayOfWeek.toUpperCase());
-            Period periodEnum = Period.valueOf(period.toUpperCase());
-            List<Schedule> schedules = scheduleService.getSchedulesByDayAndPeriod(day, periodEnum);
-            return Response.ok(schedules).build();
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Parâmetros inválidos")
-                    .build();
-        }
+    public List<Schedule> findByDayAndPeriod(
+            @QueryParam("day") DayOfWeek dayOfWeek,
+            @QueryParam("period") Period period) {
+        return scheduleService.getSchedulesByDayAndPeriod(dayOfWeek, period);
     }
 
 }
