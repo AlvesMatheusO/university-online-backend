@@ -19,7 +19,7 @@ public class Professor extends PanacheEntity {
      */
     @NotBlank(message = "A matrícula é obrigatória")
     @Pattern(regexp = "\\d{7}", message = "A matrícula deve ter exatamente 7 dígitos")
-    @Column(unique = true, nullable = false, length = 7)
+    @Column(unique = true, nullable = false, length = 20)
     public String registration;
 
     @NotBlank(message = "O nome do professor é obrigatório")

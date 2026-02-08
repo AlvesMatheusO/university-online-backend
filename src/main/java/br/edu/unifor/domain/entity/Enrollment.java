@@ -36,9 +36,8 @@ public class Enrollment extends PanacheEntity {
      */
     @NotNull(message = "O aluno é obrigatório")
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    public Student student;
-
+    @JoinColumn(name = "student_id", nullable = false) 
+    public Student student; 
     /**
      * Turma na qual o aluno está matriculado.
      * Relacionamento Many-to-One: uma turma pode ter várias matrículas.
@@ -47,15 +46,15 @@ public class Enrollment extends PanacheEntity {
      */
     @NotNull(message = "A turma é obrigatória")
     @ManyToOne
-    @JoinColumn(name = "class_id", nullable = false)
-    public Class classEntity;
+    @JoinColumn(name = "class_id", nullable = false) 
+    public Class classEntity;  
 
     /**
      * Data e hora da matrícula.
      * Preenchido automaticamente ao criar.
      */
-    @Column(nullable = false)
-    public LocalDateTime enrollmentDate;
+    @Column(name = "enrollment_date", nullable = false)  
+    public LocalDateTime enrollmentDate;  
 
     /**
      * Status da matrícula.
@@ -71,8 +70,8 @@ public class Enrollment extends PanacheEntity {
      */
     @DecimalMin(value = "0.0", message = "A nota mínima é 0.0")
     @DecimalMax(value = "10.0", message = "A nota máxima é 10.0")
-    @Column(precision = 4, scale = 2)
-    public BigDecimal finalGrade;
+    @Column(name = "final_grade", precision = 4, scale = 2)  
+    public BigDecimal finalGrade;  
 
     /**
      * Frequência do aluno (0 a 100%).
@@ -81,22 +80,22 @@ public class Enrollment extends PanacheEntity {
     @DecimalMin(value = "0.0", message = "A frequência mínima é 0%")
     @DecimalMax(value = "100.0", message = "A frequência máxima é 100%")
     @Column(precision = 5, scale = 2)
-    public BigDecimal attendance;
+    public BigDecimal attendance;  
 
     /**
      * Data de cancelamento (se aplicável).
      */
-    @Column
-    public LocalDateTime cancellationDate;
+    @Column(name = "cancellation_date")  
+    public LocalDateTime cancellationDate;  
 
     /**
      * Motivo do cancelamento (se aplicável).
      */
-    @Column(length = 500)
-    public String cancellationReason;
+    @Column(name = "cancellation_reason", length = 500)  
+    public String cancellationReason;  
 
     /**
-     * Construtor padrão
+     * Construtor padrão (obrigatório para JPA)
      */
     public Enrollment() {
     }

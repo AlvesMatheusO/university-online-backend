@@ -71,8 +71,8 @@ public class Student extends PanacheEntity {
      * Indica se o aluno está ativo no sistema.
      * Alunos inativos não podem fazer matrículas.
      */
-    @Column(name = "is_active", nullable = false)
-    public boolean isActive = true;
+    @Column(name = "active", nullable = false)
+    public Boolean isActive = true;
 
 
     public Student() {}

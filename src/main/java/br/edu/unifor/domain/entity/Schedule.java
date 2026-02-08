@@ -26,21 +26,21 @@ public class Schedule extends PanacheEntity {
      */
     @NotNull(message = "O dia da semana é obrigatório")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(name = "day_of_week", nullable = false, length = 20)
     public DayOfWeek dayOfWeek;
 
     /**
      * Horário de início da aula (ex: 08:00)
      */
     @NotNull(message = "O horário de início é obrigatório")
-    @Column(nullable = false)
+    @Column(name = "start_time", nullable = false)
     public LocalTime startTime;
 
     /**
      * Horário de término da aula (ex: 10:00)
      */
     @NotNull(message = "O horário de término é obrigatório")
-    @Column(nullable = false)
+    @Column(name = "end_time", nullable = false)
     public LocalTime endTime;
 
     /**
