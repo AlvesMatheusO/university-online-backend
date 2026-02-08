@@ -1,9 +1,9 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.coordinator;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class CreateProfessorRequest {
+public class UpdateCoordinatorRequest {
 
     @NotBlank
     public String name;
@@ -12,8 +12,7 @@ public class CreateProfessorRequest {
     @Email
     public String email;
 
-    @NotBlank
-    public String title;
+    public String phone;
 
     @NotBlank
     public String department;

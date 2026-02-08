@@ -21,8 +21,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import br.edu.unifor.application.dto.request.CreateSubjectRequest;
-import br.edu.unifor.application.dto.request.UpdateSubjectRequest;
+import br.edu.unifor.application.dto.request.subject.CreateSubjectRequest;
+import br.edu.unifor.application.dto.request.subject.UpdateSubjectRequest;
 import br.edu.unifor.application.service.SubjectService;
 import br.edu.unifor.domain.entity.Subject;
 

@@ -7,8 +7,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import br.edu.unifor.application.dto.request.CreateScheduleRequest;
-import br.edu.unifor.application.dto.request.UpdateScheduleRequest;
+import br.edu.unifor.application.dto.request.schedule.CreateScheduleRequest;
+import br.edu.unifor.application.dto.request.schedule.UpdateScheduleRequest;
 import br.edu.unifor.domain.entity.Schedule;
 import br.edu.unifor.domain.entity.Schedule.Period;
 import br.edu.unifor.domain.repository.ScheduleRepository;

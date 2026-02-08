@@ -1,4 +1,4 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.professor;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

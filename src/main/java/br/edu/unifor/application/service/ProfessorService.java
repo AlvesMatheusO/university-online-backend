@@ -6,8 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import br.edu.unifor.application.dto.request.CreateProfessorRequest;
-import br.edu.unifor.application.dto.request.UpdateProfessorRequest;
+import br.edu.unifor.application.dto.request.professor.CreateProfessorRequest;
+import br.edu.unifor.application.dto.request.professor.UpdateProfessorRequest;
 import br.edu.unifor.domain.entity.Professor;
 import br.edu.unifor.domain.repository.ProfessorRepository;
 import br.edu.unifor.infrastructure.exception.EmailAlreadyExistException;

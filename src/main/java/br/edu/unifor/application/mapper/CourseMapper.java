@@ -2,7 +2,7 @@ package br.edu.unifor.application.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import br.edu.unifor.application.dto.request.CreateCourseRequest;
+import br.edu.unifor.application.dto.request.coordinator.CreateCourseRequest;
 import br.edu.unifor.domain.entity.Course;
 
 @ApplicationScoped

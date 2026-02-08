@@ -6,8 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import br.edu.unifor.application.dto.request.CreateCoordinatorRequest;
-import br.edu.unifor.application.dto.request.UpdateCoordinatorRequest;
+import br.edu.unifor.application.dto.request.coordinator.CreateCoordinatorRequest;
+import br.edu.unifor.application.dto.request.coordinator.UpdateCoordinatorRequest;
 import br.edu.unifor.domain.entity.Coordinator;
 import br.edu.unifor.domain.entity.Course;
 import br.edu.unifor.domain.repository.CoordinatorRepository;

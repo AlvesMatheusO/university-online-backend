@@ -19,8 +19,8 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import br.edu.unifor.application.dto.request.CreateProfessorRequest;
-import br.edu.unifor.application.dto.request.UpdateProfessorRequest;
+import br.edu.unifor.application.dto.request.professor.CreateProfessorRequest;
+import br.edu.unifor.application.dto.request.professor.UpdateProfessorRequest;
 import br.edu.unifor.application.service.ProfessorService;
 import br.edu.unifor.domain.entity.Professor;
 

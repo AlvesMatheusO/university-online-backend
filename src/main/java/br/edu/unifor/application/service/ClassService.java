@@ -6,7 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import br.edu.unifor.application.dto.request.CreateClassRequest;
+import br.edu.unifor.application.dto.request.classEntity.CreateClassRequest;
 import br.edu.unifor.domain.entity.Class;
 import br.edu.unifor.domain.entity.Class.ClassStatus;
 import br.edu.unifor.domain.entity.Course;

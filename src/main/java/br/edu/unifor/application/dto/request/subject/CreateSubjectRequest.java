@@ -1,4 +1,4 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.subject;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

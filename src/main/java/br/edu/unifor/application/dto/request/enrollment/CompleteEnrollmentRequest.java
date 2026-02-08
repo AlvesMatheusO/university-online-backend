@@ -1,4 +1,4 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.enrollment;
 
 import java.math.BigDecimal;
 

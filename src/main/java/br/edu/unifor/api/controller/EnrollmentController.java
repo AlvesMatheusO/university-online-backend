@@ -22,8 +22,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import br.edu.unifor.application.dto.request.CompleteEnrollmentRequest;
-import br.edu.unifor.application.dto.request.CreateEnrollmentRequest;
+import br.edu.unifor.application.dto.request.enrollment.CompleteEnrollmentRequest;
+import br.edu.unifor.application.dto.request.enrollment.CreateEnrollmentRequest;
 import br.edu.unifor.application.service.EnrollmentService;
 import br.edu.unifor.domain.entity.Enrollment;
 import br.edu.unifor.domain.entity.Enrollment.EnrollmentStatus;

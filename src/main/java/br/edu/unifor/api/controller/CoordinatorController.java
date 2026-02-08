@@ -20,8 +20,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import br.edu.unifor.application.dto.request.CreateCoordinatorRequest;
-import br.edu.unifor.application.dto.request.UpdateCoordinatorRequest;
+import br.edu.unifor.application.dto.request.coordinator.CreateCoordinatorRequest;
+import br.edu.unifor.application.dto.request.coordinator.UpdateCoordinatorRequest;
 import br.edu.unifor.application.service.CoordinatorService;
 import br.edu.unifor.domain.entity.Coordinator;
 

@@ -6,8 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import br.edu.unifor.application.dto.request.CreateStudentRequest;
-import br.edu.unifor.application.dto.request.UpdateStudentRequest;
+import br.edu.unifor.application.dto.request.student.CreateStudentRequest;
+import br.edu.unifor.application.dto.request.student.UpdateStudentRequest;
 import br.edu.unifor.domain.entity.Course;
 import br.edu.unifor.domain.entity.Student;
 import br.edu.unifor.domain.repository.CourseRepository;

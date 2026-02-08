@@ -1,4 +1,4 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.enrollment;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

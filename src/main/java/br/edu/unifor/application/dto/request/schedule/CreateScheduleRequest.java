@@ -1,4 +1,4 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.schedule;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import br.edu.unifor.domain.entity.Schedule.Period;
 
-public class UpdateScheduleRequest {
+public class CreateScheduleRequest {
 
     @NotNull
     public DayOfWeek dayOfWeek;

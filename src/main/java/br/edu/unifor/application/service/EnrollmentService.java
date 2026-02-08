@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import br.edu.unifor.application.dto.request.CreateEnrollmentRequest;
+import br.edu.unifor.application.dto.request.enrollment.CreateEnrollmentRequest;
 import br.edu.unifor.domain.entity.Class;
 import br.edu.unifor.domain.entity.Enrollment;
 import br.edu.unifor.domain.entity.Enrollment.EnrollmentStatus;

@@ -19,8 +19,8 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import br.edu.unifor.application.dto.request.CreateStudentRequest;
-import br.edu.unifor.application.dto.request.UpdateStudentRequest;
+import br.edu.unifor.application.dto.request.student.CreateStudentRequest;
+import br.edu.unifor.application.dto.request.student.UpdateStudentRequest;
 import br.edu.unifor.application.service.StudentService;
 import br.edu.unifor.domain.entity.Student;
 

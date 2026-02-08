@@ -1,9 +1,9 @@
-package br.edu.unifor.application.dto.request;
+package br.edu.unifor.application.dto.request.coordinator;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class UpdateCoordinatorRequest {
+public class CreateCoordinatorRequest {
 
     @NotBlank
     public String name;
