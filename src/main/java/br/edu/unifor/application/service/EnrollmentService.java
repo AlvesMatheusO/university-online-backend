@@ -156,13 +156,6 @@ public class EnrollmentService {
     }
 
     /**
-     * Busca matrículas de um aluno em um semestre.
-     */
-    public List<Enrollment> findByStudentAndSemester(Long studentId, String semester) {
-        return enrollmentRepository.findByStudentAndSemester(studentId, semester);
-    }
-
-    /**
      * Busca matrículas por status.
      */
     public List<Enrollment> findByStatus(EnrollmentStatus status) {
