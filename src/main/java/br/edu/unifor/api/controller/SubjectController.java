@@ -2,9 +2,9 @@ package br.edu.unifor.api.controller;
 
 import java.util.List;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -31,7 +31,6 @@ import br.edu.unifor.domain.entity.Subject;
  * 
  */
 @Path("/subjects")
-@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Subjects", description = "Gerenciamento de disciplinas")
 public class SubjectController {
@@ -40,6 +39,7 @@ public class SubjectController {
     SubjectService subjectService;
 
     @GET
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Listar todas as disciplinas")
     @APIResponse(responseCode = "200", description = "Lista de disciplinas")
     public List<Subject> listAll() {
@@ -48,6 +48,7 @@ public class SubjectController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Buscar disciplina por ID")
     @APIResponse(responseCode = "200", description = "Disciplina encontrada")
     @APIResponse(responseCode = "404", description = "Disciplina não encontrada")
@@ -58,6 +59,7 @@ public class SubjectController {
 
     @GET
     @Path("/code/{code}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Buscar disciplina por código")
     @APIResponse(responseCode = "200", description = "Disciplina encontrada")
     @APIResponse(responseCode = "404", description = "Disciplina não encontrada")
@@ -69,6 +71,7 @@ public class SubjectController {
 
     @GET
     @Path("/credits")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Buscar disciplinas por créditos")
     @APIResponse(responseCode = "200", description = "Lista de disciplinas")
     public List<Subject> findByCredits(
@@ -77,6 +80,7 @@ public class SubjectController {
     }
 
     @POST
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Criar nova disciplina")
     @APIResponse(responseCode = "201", description = "Disciplina criada")
     @APIResponse(responseCode = "400", description = "Dados inválidos")
@@ -88,6 +92,7 @@ public class SubjectController {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Atualizar disciplina")
     @APIResponse(responseCode = "200", description = "Disciplina atualizada")
     @APIResponse(responseCode = "404", description = "Disciplina não encontrada")
@@ -101,6 +106,7 @@ public class SubjectController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Remover disciplina", description = "Remove permanentemente uma disciplina. Não é permitido se a disciplina tiver turmas ativas.")
     @APIResponse(responseCode = "204", description = "Disciplina removida")
     @APIResponse(responseCode = "404", description = "Disciplina não encontrada")
@@ -112,6 +118,7 @@ public class SubjectController {
 
     @GET
     @Path("/count")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Contar total de disciplinas")
     @APIResponse(responseCode = "200", description = "Número de disciplinas")
     public Response count() {

@@ -2,6 +2,7 @@ package br.edu.unifor.api.controller;
 
 import java.util.List;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
@@ -38,6 +39,7 @@ public class ProfessorController {
      * @return Lista de professores
      */
     @GET
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Listar professores")
     public List<Professor> listAll() {
         return professorService.getAllProfessors();
@@ -45,7 +47,7 @@ public class ProfessorController {
 
     @GET
     @Path("/{id}")
-    @Operation(summary = "Buscar professor por ID")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     public Response findById(@PathParam("id") Long id) {
         Professor professor = professorService.findById(id);
         return Response.ok(professor).build();
@@ -53,6 +55,7 @@ public class ProfessorController {
 
     @GET
     @Path("/registration/{registration}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Buscar professor por matrícula")
     public Response findByRegistration(@PathParam("registration") String registration) {
         Professor professor = professorService.findByRegistration(registration);
@@ -61,6 +64,7 @@ public class ProfessorController {
 
     @GET
     @Path("/department")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Buscar professores por departamento")
     public List<Professor> findByDepartment(@QueryParam("name") String department) {
         return professorService.findByDepartment(department);
@@ -68,6 +72,7 @@ public class ProfessorController {
 
     @GET
     @Path("/email/{email}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Buscar professor por email")
     public Response findByEmail(@PathParam("email") String email) {
         Professor professor = professorService.findByEmail(email);
@@ -79,6 +84,7 @@ public class ProfessorController {
      * A matrícula é gerada automaticamente pelo sistema.
      */
     @POST
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Criar novo professor")
     @APIResponse(responseCode = "201", description = "Professor criado com sucesso")
     @APIResponse(responseCode = "400", description = "Dados inválidos")
@@ -94,6 +100,7 @@ public class ProfessorController {
      */
     @PUT
     @Path("/{id}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Atualizar professor")
     @APIResponse(responseCode = "200", description = "Professor atualizado com sucesso")
     @APIResponse(responseCode = "404", description = "Professor não encontrado")
@@ -111,6 +118,7 @@ public class ProfessorController {
      */
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({ "ADMIN", "COORDINATOR" })
     @Operation(summary = "Remover professor")
     @APIResponse(responseCode = "204", description = "Professor removido com sucesso")
     @APIResponse(responseCode = "404", description = "Professor não encontrado")

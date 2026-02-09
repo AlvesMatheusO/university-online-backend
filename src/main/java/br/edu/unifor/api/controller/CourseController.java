@@ -2,6 +2,7 @@ package br.edu.unifor.api.controller;
 
 import java.util.List;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -25,6 +26,7 @@ public class CourseController {
     CourseRepository courseRepository;
 
     @GET
+    @PermitAll
     @Operation(summary = "Listar cursos ativos")
     public List<Course> listActiveCourses() {
         return courseRepository.findAllActive();
@@ -32,6 +34,7 @@ public class CourseController {
 
     @GET
     @Path("/{id}")
+    @PermitAll
     @Operation(summary = "Buscar curso por ID")
     public Response findById(@PathParam("id") Long id) {
         return courseRepository.findByIdOptional(id) 
