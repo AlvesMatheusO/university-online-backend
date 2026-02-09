@@ -88,6 +88,47 @@ public class CoordinatorRepository implements PanacheRepository<Coordinator> {
     }
 
     /**
+ * Verifica se um coordenador coordena algum dos cursos de uma turma
+ */
+public boolean coordinatesAnyCourseOfClass(String coordinatorUsername, Long classId) {
+    String query = """
+        SELECT COUNT(c) > 0 
+        FROM Coordinator coord
+        JOIN coord.courses course
+        JOIN Class c 
+        JOIN c.courses classCourse
+        WHERE coord.username = ?1 
+        AND c.id = ?2
+        AND course.id = classCourse.id
+        AND coord.active = true
+        """;
+    
+    return getEntityManager()
+            .createQuery(query, Boolean.class)
+            .setParameter(1, coordinatorUsername)
+            .setParameter(2, classId)
+            .getSingleResult();
+}
+
+/**
+ * Retorna IDs dos cursos que um coordenador gerencia
+ */
+public List<Long> findCourseIdsByUsername(String username) {
+    String query = """
+        SELECT course.id 
+        FROM Coordinator coord
+        JOIN coord.courses course
+        WHERE coord.username = ?1 
+        AND coord.active = true
+        """;
+    
+    return getEntityManager()
+            .createQuery(query, Long.class)
+            .setParameter(1, username)
+            .getResultList();
+}
+    
+    /**
      * Conta quantos cursos um coordenador gerencia.
      * 
      * @param coordinatorId ID do coordenador
