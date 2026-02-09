@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   # ======================================================
-  # BANCO DE DADOS: POSTGRESQL 
+  # BANCO DE DADOS: POSTGRESQL
   # ======================================================
   postgres:
     image: postgres:16-alpine
@@ -14,7 +14,6 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      # Persistência de dados entre reiniciações
       - postgres_data:/var/lib/postgresql/data
     networks:
       - academic-network
@@ -34,7 +33,7 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres 
       KC_DB_USERNAME: academic_user
       KC_DB_PASSWORD: academic_pass
       KC_HOSTNAME_STRICT: false
@@ -53,6 +52,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+      start_period: 60s  
 
   # ======================================================
   # INTERFACE WEB PARA POSTGRESQL: PGADMIN
