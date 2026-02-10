@@ -1,0 +1,83 @@
+{
+  "realm": "academic-system",
+  "enabled": true,
+
+  "roles": {
+    "realm": [
+      { "name": "ADMIN" },
+      { "name": "COORDINATOR" },
+      { "name": "STUDENT" }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "academic-api",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["http://localhost:8080/*"]
+    },
+    {
+      "clientId": "academic-frontend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "redirectUris": ["http://localhost:4200/*"],
+      "webOrigins": ["http://localhost:4200"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    }
+  ],
+
+  "users": [
+    {
+      "username": "admin@unifor.br",
+      "email": "admin@unifor.br",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ADMIN"]
+    },
+    {
+      "username": "coord.silva@unifor.br",
+      "email": "coord.silva@unifor.br",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["COORDINATOR"]
+    },
+    {
+      "username": "joao.almeida@unifor.br",
+      "email": "joao.almeida@unifor.br",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["STUDENT"]
+    }
+  ]
+}

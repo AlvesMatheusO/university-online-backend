@@ -12,7 +12,7 @@ services:
       POSTGRES_USER: academic_user
       POSTGRES_PASSWORD: academic_pass
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -29,17 +29,26 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
     container_name: academic-keycloak
+    command:
+      - start-dev
+      - --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres 
+      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
       KC_DB_USERNAME: academic_user
       KC_DB_PASSWORD: academic_pass
-      KC_HOSTNAME_STRICT: false
-      KC_HTTP_ENABLED: true
-    command:
-      - start-dev
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_PROXY: "edge"
+      # Adicionar CORS e Frame-Ancestors
+      KC_HTTP_CORS_ORIGINS: "http://localhost:4200,http://localhost:8544"
+      KC_HTTP_CORS_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import
+      - keycloak_data:/opt/keycloak/data
     ports:
       - "8180:8080"
     depends_on:
@@ -47,12 +56,6 @@ services:
         condition: service_healthy
     networks:
       - academic-network
-    healthcheck:
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: 127.0.0.1\r\nConnection: close\r\n\r\n' >&3;grep 'HTTP/1.1 200 OK' <&3"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s  
 
   # ======================================================
   # INTERFACE WEB PARA POSTGRESQL: PGADMIN
@@ -72,6 +75,8 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  keycloak_data:
     driver: local
 
 networks:
