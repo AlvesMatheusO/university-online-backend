@@ -115,7 +115,7 @@ public class EnrollmentController {
 
     @GET
     @Path("/student/{studentId}")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Listar matrículas de um aluno")
     public List<Enrollment> findByStudent(@PathParam("studentId") Long studentId) {
         return enrollmentService.findByStudent(studentId);
@@ -123,7 +123,7 @@ public class EnrollmentController {
 
     @GET
     @Path("/student/{studentId}/active")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Listar matrículas ativas de um aluno")
     public List<Enrollment> findActiveByStudent(@PathParam("studentId") Long studentId) {
         return enrollmentService.findActiveByStudent(studentId);
@@ -139,16 +139,16 @@ public class EnrollmentController {
 
     @GET
     @Path("/class/{classId}/active")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Listar matrículas ativas de uma turma")
     public List<Enrollment> findActiveByClass(
-            @PathParam("classId") Long classId) { 
+            @PathParam("classId") Long classId) {
         return enrollmentService.findActiveByClass(classId);
     }
 
     @GET
     @Path("/course/{courseId}")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Listar matrículas de um curso")
     public List<Enrollment> findByCourse(@PathParam("courseId") Long courseId) {
         return enrollmentService.findByCourse(courseId);
@@ -156,7 +156,7 @@ public class EnrollmentController {
 
     @GET
     @Path("/status")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Listar matrículas por status")
     public List<Enrollment> findByStatus(
             @Parameter(description = "Status (ATIVA, CANCELADA, CONCLUIDA, TRANCADA)") @QueryParam("value") String status) {
@@ -166,7 +166,7 @@ public class EnrollmentController {
 
     @PATCH
     @Path("/{id}/complete")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     public Response complete(
             @PathParam("id") Long id,
             @Valid CompleteEnrollmentRequest dto) {
@@ -176,7 +176,7 @@ public class EnrollmentController {
 
     @PUT
     @Path("/{id}/grade")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     public Enrollment updateGrade(
             @PathParam("id") Long id,
             @QueryParam("grade") BigDecimal grade,
@@ -186,7 +186,7 @@ public class EnrollmentController {
 
     @GET
     @Path("/student/{studentId}/count")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Contar matrículas ativas de um aluno")
     public Response countByStudent(@PathParam("studentId") Long studentId) {
         long count = enrollmentService.countActiveByStudent(studentId);
@@ -204,7 +204,7 @@ public class EnrollmentController {
 
     @GET
     @Path("/course/{courseId}/count")
-    @RolesAllowed({ "ADMIN", "COORDINATOR" })
+    @RolesAllowed({ "ADMIN", "COORDINATOR", "STUDENT" })
     @Operation(summary = "Contar total de matrículas de um curso")
     public Response countByCourse(@PathParam("courseId") Long courseId) {
         long count = enrollmentService.countByCourse(courseId);

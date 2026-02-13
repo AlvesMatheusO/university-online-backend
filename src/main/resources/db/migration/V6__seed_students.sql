@@ -1,6 +1,6 @@
 -- ============================================
--- V7__seed_students.sql
--- Seeds: Students (5 students using course codes)
+-- V6__seed_students.sql
+-- Seeds: Students (6 students)
 -- ============================================
 
 INSERT INTO students (registration, name, email, cpf, phone, course_id, active) VALUES 
@@ -21,4 +21,8 @@ INSERT INTO students (registration, name, email, cpf, phone, course_id, active) 
 
 -- Sistemas de Informação
 ('2610005', 'Eduarda Martins Souza', 'eduarda.martins@aluno.unifor.br', '56789012345', '85982345678', 
- (SELECT id FROM courses WHERE code = 'SI'), true);
+ (SELECT id FROM courses WHERE code = 'SI'), true),
+
+-- João Almeida (ID para o Keycloak)
+('2610006', 'João Almeida', 'joao.almeida@unifor.br', '67890123456', '85999999999', 
+ (SELECT id FROM courses WHERE code = 'ENG_SOFT'), true);
