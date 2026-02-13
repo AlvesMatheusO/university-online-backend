@@ -35,7 +35,7 @@ Para iniciar o PostgreSQL e o Keycloak:
 
 ```bash
 docker-compose up -d
-
+```
 
 ### 🔄 Resetar o ambiente
 
@@ -44,6 +44,7 @@ Caso precise limpar o banco de dados (remover todas as tabelas e volumes):
 ```bash
 docker-compose down -v
 docker-compose up -d
+```
 
 ### 💻 Executando a Aplicação
 
@@ -51,6 +52,7 @@ O Quarkus permite alterar o código e visualizar as mudanças em tempo real sem 
 
 ```bash
 ./mvnw quarkus:dev
+```
 
 🌐 Acessos
 
@@ -60,6 +62,7 @@ API: http://localhost:8080
 Swagger UI (Documentação): http://localhost:8080/q/swagger-ui
 
 Dev UI: http://localhost:8080/q/dev/
+```
 
 ### 🧪 Executando Testes
 O projeto utiliza JUnit 5 e REST Assured.
@@ -67,11 +70,13 @@ O projeto utiliza JUnit 5 e REST Assured.
 ```bash
 ./mvnw test
 ./mvnw verify -Pnative
+```
 
 ### 🔑 Segurança e Keycloak
 A API está protegida via OIDC.
+
 ```bash
 Realm: academic-system
 Client ID: academic-api
 URL do Servidor: http://localhost:8180
-
+```
